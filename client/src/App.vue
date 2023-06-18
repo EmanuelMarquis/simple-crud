@@ -3,9 +3,10 @@ import Form from './components/Form.vue'
 </script>
 
 <template>
-  <div id="form-container">
+  <!-- <div id="form-container">
     <Form/>
-  </div>
+  </div> -->
+  <RouterView/>
 </template>
 
 <style scoped>
