@@ -2,9 +2,14 @@
 import { ref } from 'vue';
 import { getCubes } from '../services/consumer';
 import { onBeforeMount } from 'vue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 
 let cubes = ref({})
+
+useRouter().afterEach(async (to, from) => {
+    if(!(to.fullPath === "/")) return
+    cubes.value = await getCubes()
+})
 
 onBeforeMount(async () => {
     cubes.value = await getCubes()
