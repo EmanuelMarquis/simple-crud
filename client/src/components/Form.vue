@@ -1,7 +1,6 @@
 <script setup>
-import axios from 'axios'
 import { ref, onBeforeMount } from 'vue'
-
+import {createCube} from '../services/consumer';
 let cubes = ref("...")
 
 onBeforeMount(async () => {
@@ -34,28 +33,7 @@ export default {
     id: 1
   }},
   methods: {
-    createCube(msg, color, onCreate) {
-      axios.post("/api/cubes", {msg: msg, color: color})
-        .then((res) => onCreate()) // on success
-    },
-    async getCubes() {
-      return (await axios.get("/api/cubes")).data
-    },
-    async getCube(id) {
-      return (await axios.get(`/api/cubes/${id}`)).data
-    },
-    editCube(id, msg, color, onEdit) {
-      axios.put(`/api/cubes/${id}`, {msg: msg, color: color})
-        .then((res) => onEdit())
-    },
-    deleteCube(id, onDeletion) {
-      axios.delete(`/api/cubes/${id}`)
-        .then((res) => onDeletion())
-    },
-    deleteAllCubes(onDeletion) {
-      axios.delete("/api/cubes")
-        .then((res) => onDeletion()) // on success
-    }
+    
   }
 }
 </script>
