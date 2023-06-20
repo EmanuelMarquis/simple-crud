@@ -6,10 +6,6 @@ function remToPx(rem) {
     return rem * parseInt(window.getComputedStyle(document.body).getPropertyValue('font-size'))
 }
 
-function toCssHex(color: String) {
-    return color.replace("0x", "#")
-}
-
 const props = defineProps(['color', 'msg'])
 
 const canvas = ref<HTMLCanvasElement | null>(null) // reference to canvas html element
@@ -18,7 +14,7 @@ const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000)
 
 const cube = new THREE.Mesh(
     new THREE.BoxGeometry(3, 3, 3),
-    new THREE.MeshBasicMaterial({ color: toCssHex(props.color ) })
+    new THREE.MeshBasicMaterial({ color: props.color })
 )
 
 camera.position.z = 5
