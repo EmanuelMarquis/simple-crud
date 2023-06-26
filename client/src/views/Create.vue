@@ -8,7 +8,7 @@ import { createCube } from '../services/consumer';
     <span>
         <input v-model="msg" type="text" placeholder="messgae" maxlength="32"/>
         <input v-model="color" type="color"/>
-        <RouterLink to="/"><input type="button" value="create" @click="createCube(msg, color)"/></RouterLink>
+        <RouterLink to="/"><input type="button" value="create" @click="async () => await createCube(msg, color)"/></RouterLink>
     </span>
 </template>
 

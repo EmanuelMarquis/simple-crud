@@ -1,14 +1,17 @@
 <script setup>
-import { getData, deleteCube } from '../services/consumer';
+import {cubes, deleteCube } from '../services/consumer';
 import Cube from '../components/Cube.vue';
 import { useRoute } from 'vue-router';
+
+const cube = cubes.value.find(cube => cube.id == useRoute().params.id)
+
 </script>
 <template>
     <p>Here u can see a cube</p>
-    <Cube :color="getData().cube.color" :msg="getData().cube.msg"/>
+    <Cube :color="cube.color" :msg="cube.msg"/>
     <span>
-        <RouterLink :to="'/cube/' + useRoute().params.id + '/edit'"><input type="button" value="edit"/></RouterLink>
-        <RouterLink to="/"><input type="button" value="delete" @click="() => deleteCube(getData().cube.id)"/></RouterLink>
+        <RouterLink :to="'/cube/' + cube.id + '/edit'"><input type="button" value="edit"/></RouterLink>
+        <RouterLink to="/"><input type="button" value="delete" @click="async() => await deleteCube(cube.id)"/></RouterLink>
     </span>
 </template>
 

@@ -1,12 +1,9 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { editCube } from '../services/consumer';
-import Cube from '../components/Cube.vue';
-
 </script>
 <template>
     <p>Here u edit ur cube :)</p>
-    <Cube :msg="newMsg" :color="newColor"/>
     <span class="form">
         <input v-model="newMsg" type="text" placeholder="new message" maxlength="32"/>
         <input v-model="newColor" type="color"/>
@@ -15,7 +12,7 @@ import Cube from '../components/Cube.vue';
     <RouterLink to="/">
        <span>
             <input type="button" value="cancel"/>
-            <input type="button" value="save" @click="editCube(useRoute().params.id, newMsg, newColor)"/>
+            <input type="button" value="save" @click="async () => await editCube(useRoute().params.id, newMsg, newColor)"/>
        </span>
     </RouterLink>
 </template>
