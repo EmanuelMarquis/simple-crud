@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import * as THREE from 'three'
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+
+const props = defineProps(['color', 'msg'])
 
 function remToPx(rem) {
     return rem * parseInt(window.getComputedStyle(document.body).getPropertyValue('font-size'))
 }
-
-const props = defineProps(['color', 'msg'])
 
 const canvas = ref<HTMLCanvasElement | null>(null) // reference to canvas html element
 const scene = new THREE.Scene()
@@ -40,6 +40,9 @@ onMounted(()=> {
     animate()
 })
 
+watch(props, ()=>{
+    cube.material = new THREE.MeshBasicMaterial({color: props.color})
+})
 </script>
 
 <template>
