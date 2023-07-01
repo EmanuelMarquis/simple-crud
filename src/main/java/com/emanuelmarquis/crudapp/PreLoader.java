@@ -14,7 +14,7 @@ public class PreLoader {
     @Bean
     CommandLineRunner initDB(ICubeRepo repo) {
         return (args) -> {
-            log.info("preloading " + repo.save(new Cube("hello world!", "#ffffff")));
+            log.info("preloading " + repo.save(new Cube("hello world!", "#ff88ff")));
         };
     }
 }
