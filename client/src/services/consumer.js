@@ -1,7 +1,15 @@
 import axios from 'axios'
 import { ref } from 'vue'
 
-let cubes = ref(await getCubes())
+let cubes
+
+try {
+    (async () => {
+        cubes = ref(await getCubes())
+    })()
+} catch(e) {
+    console.log(e)
+}
 
 async function createCube(msg, color) {
     await axios.post("/api/cubes", {msg: msg, color: color})

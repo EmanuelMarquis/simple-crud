@@ -4,8 +4,7 @@ import { Dashboard, Create, CubeView, CubeEdit } from '../views'
 const routes = [
     { path: '/', component: Dashboard },
     { path: '/create', component: Create },
-    { 
-        path: '/cube/:id',
+    { path: '/cube/:id',
         template: '<div><router-view></router-view></di>',
         children: [
             { path: '', component: CubeView },
