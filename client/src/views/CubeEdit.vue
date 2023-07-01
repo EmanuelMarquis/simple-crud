@@ -1,29 +1,32 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import { editCube } from '../services/consumer';
-import Cube from '../components/Cube.vue';
-
+import { editCube, cubes } from '../services/consumer';
+import Navbar from '../components/Navbar.vue';
+import Cube from '../components/Cube.vue'
 </script>
 <template>
-    <p>Here u edit ur cube :)</p>
-    <Cube :msg="newMsg" :color="newColor"/>
-    <span class="form">
-        <input v-model="newMsg" type="text" placeholder="new message" maxlength="32"/>
-        <input v-model="newColor" type="color"/>
-    </span>
-
-    <RouterLink to="/">
-       <span>
-            <input type="button" value="cancel"/>
-            <input type="button" value="save" @click="editCube(useRoute().params.id, newMsg, newColor)"/>
-       </span>
-    </RouterLink>
+    <Navbar :back="useRoute().fullPath.replace('/edit', '')"/>
+    <div id="form">
+        <Cube :color="newColor" :msg="newMsg"/>
+        <span>
+            <input v-model="newMsg" type="text" placeholder="new message" maxlength="32"/>
+            <input v-model="newColor" type="color"/>
+        </span>
+        <span>
+            <input type="button" value="cancel" @click="$router.push('/')"/>
+            <input type="button" value="save" @click="async () => {
+                try {await editCube(useRoute().params.id, newMsg, newColor)} 
+                catch (error) {console.log(e)}; 
+                $router.push('/')
+            }"/>
+        </span>
+    </div>
 </template>
 <script>
 export default {
     data: () => {return {
         newMsg: '',
-        newColor: '#ffffff'
+        newColor: cubes?.value.find(cube => cube.id == useRoute().params.id) ?? '#ff88ff'
     }},
 }
 </script>
@@ -34,8 +37,42 @@ span {
     gap: 1rem;
 }
 
-.form {
-    margin-bottom: 1rem;
+input[type="text"] {
+    font-size: inherit;
+    width: 8rem;
+    border-radius: 0.5rem;
+    border: solid;
+    outline: none;
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    text-indent: 0.5rem;
+}
+
+input[type="text"]::placeholder {
+    color: var(--accent-color);
+}
+
+input[type="text"]:focus { 
+    border-color: var(--dark-accent-color);
+    color: var(--dark-accent-color);
+
+} 
+
+input[type="text"]:focus::placeholder { 
+    color: var(--dark-accent-color);
+}
+
+input[type="button"] {
+    margin-top: 10rem;
+    font-size: inherit;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+#form {
+    display: grid;
+    justify-items: center;
+    gap: 1rem;
 }
 
 </style>

@@ -1,23 +1,47 @@
 <script setup>
-import { getCubes, getData } from '../services/consumer';
-import { onBeforeMount } from 'vue';
+import { cubes, getCubes } from '../services/consumer';
 import { RouterLink } from 'vue-router';
 import Cube from '../components/Cube.vue';
-
-onBeforeMount(async () => {
-    getData().cubes.value = await getCubes()
-})
+import Navbar from '../components/Navbar.vue';
 </script>
-
 <template>
     <div>
-        <p>Here you see the existing cubes:</p>
-        <p>{{ getData().cubes }}</p>
-        <ul v-for="cube in getData().cubes">
+        <Navbar/>
+        <p>{{ cubes }}</p>
+        <ul v-if="dataReady" v-for="cube in cubes">
             <RouterLink :to="'/cube/' + cube.id">
                 <Cube :color="cube.color" :msg="cube.msg"/>
             </RouterLink>
         </ul>
-        <RouterLink to="/create"><input type="button" value="new cube" /></RouterLink>
+        <input id="create-btn" type="button" value="+" @click="$router.push('/create')" />
     </div>
 </template>
+<script>
+export default {
+    data() {
+        return {dataReady: false}
+    },
+    async mounted() {
+        cubes.value = await getCubes()
+        this.dataReady = true
+    }
+}
+</script>
+<style scoped>
+
+#create-btn {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 0.5rem;
+    font-size: 3rem;
+
+    position: fixed;
+    bottom: 1.3rem;
+    right: 1rem;
+}
+
+div {
+    height: 100vh;
+}
+
+</style>

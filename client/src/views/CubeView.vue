@@ -1,22 +1,65 @@
 <script setup>
-import { getData, deleteCube } from '../services/consumer';
+import {cubes, deleteCube } from '../services/consumer';
 import Cube from '../components/Cube.vue';
 import { useRoute } from 'vue-router';
+import Navbar from '../components/Navbar.vue';
+import Popover from '../components/Popover.vue';
+import { ref } from 'vue';
+
+let cube, isPopoverActive = ref(false)
+
+try {
+    cube = cubes.value.find(cube => cube.id == useRoute().params.id)
+} catch (e) {
+    console.log(e)
+}
+
 </script>
 <template>
-    <p>Here u can see a cube</p>
-    <Cube :color="getData().cube.color" :msg="getData().cube.msg"/>
+    <Navbar back="/"/>
+    <Cube :color="cube?.color " :msg="cube?.msg"/>
     <span>
-        <RouterLink :to="'/cube/' + useRoute().params.id + '/edit'"><input type="button" value="edit"/></RouterLink>
-        <RouterLink to="/"><input type="button" value="delete" @click="() => deleteCube(getData().cube.id)"/></RouterLink>
+        <input type="button" value="edit" @click="() => $router.push('/cube/' + cube?.id + '/edit')"/>
+        <input type="button" value="delete" @click="() => isPopoverActive = true"/>
     </span>
+    <div v-if="isPopoverActive" id="pop-over">
+        <Popover
+            :text="`Do you want to delete Cube#${cube?.id} ?`" 
+            action-text="delete" 
+            :action="async() => {
+                try {await deleteCube(cube?.id)} 
+                catch (error) {console.log(e)};
+                $router.push('/')
+            }"
+            :cancel-action="() => isPopoverActive = false"
+        />
+    </div>
+    
 </template>
 
 <style scoped>
 
 span {
+    margin-top: 8.5rem;
     display: flex;
+    justify-content: center;
     gap: 1rem;
+}
+
+input[type="button"] {
+    font-size: inherit;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+#pop-over {
+    display: grid;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(21, 25, 32, 0.575);
 }
 
 </style>
