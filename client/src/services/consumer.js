@@ -1,11 +1,11 @@
 import axios from 'axios'
 import { ref } from 'vue'
 
-let cubes
+let cubes = ref()
 
 try {
     (async () => {
-        cubes = ref(await getCubes())
+        cubes.value = await getCubes()
     })()
 } catch(e) {
     console.log(e)

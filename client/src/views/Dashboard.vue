@@ -7,7 +7,6 @@ import Navbar from '../components/Navbar.vue';
 <template>
     <div>
         <Navbar/>
-        <p>{{ cubes }}</p>
         <ul v-if="dataReady" v-for="cube in cubes">
             <RouterLink :to="'/cube/' + cube.id">
                 <Cube :color="cube.color" :msg="cube.msg"/>
