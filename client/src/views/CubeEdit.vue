@@ -15,8 +15,8 @@ import Cube from '../components/Cube.vue'
         <span>
             <input type="button" value="cancel" @click="$router.push('/')"/>
             <input type="button" value="save" @click="async () => {
-                try {await editCube(useRoute().params.id, newMsg, newColor)} 
-                catch (error) {console.log(e)}; 
+                await editCube($route.params.id, newMsg , newColor)
+                    .catch((e)=> console.log(e));
                 $router.push('/')
             }"/>
         </span>
@@ -26,7 +26,7 @@ import Cube from '../components/Cube.vue'
 export default {
     data: () => {return {
         newMsg: '',
-        newColor: cubes?.value.find(cube => cube.id == useRoute().params.id) ?? '#ff88ff'
+        newColor: cubes?.value?.find(cube => cube.id == useRoute().params.id).color ?? '#ff88ff'
     }},
 }
 </script>
