@@ -6,10 +6,10 @@ import Navbar from '../components/Navbar.vue';
 import Popover from '../components/Popover.vue';
 import { ref } from 'vue';
 
-let cube, isPopoverActive = ref(false)
+let cube = ref(), isPopoverActive = ref(false)
 
 try {
-    cube = cubes.value.find(cube => cube.id == useRoute().params.id)
+    cube.value = cubes.value.find(c => c.id == useRoute().params.id) 
 } catch (e) {
     console.log(e)
 }
@@ -17,7 +17,7 @@ try {
 </script>
 <template>
     <Navbar back="/"/>
-    <Cube :color="cube?.color " :msg="cube?.msg"/>
+    <Cube :color="cube?.color" :msg="cube?.msg"/>
     <span>
         <input type="button" value="edit" @click="() => $router.push('/cube/' + cube?.id + '/edit')"/>
         <input type="button" value="delete" @click="() => isPopoverActive = true"/>
