@@ -17,11 +17,14 @@ try {
 </script>
 <template>
     <Navbar back="/"/>
-    <Cube :color="cube?.color" :msg="cube?.msg"/>
-    <span>
-        <input type="button" value="edit" @click="() => $router.push('/cube/' + cube?.id + '/edit')"/>
-        <input type="button" value="delete" @click="() => isPopoverActive = true"/>
-    </span>
+    <div id="form">
+        <Cube :color="cube?.color" :msg="cube?.msg"/>
+        <p id="msg">{{ cube?.msg }}</p>
+        <span>
+            <input type="button" value="edit" @click="() => $router.push('/cube/' + cube?.id + '/edit')"/>
+            <input type="button" value="delete" @click="() => isPopoverActive = true"/>
+        </span>
+    </div>
     <div v-if="isPopoverActive" id="pop-over">
         <Popover
             :text="`Do you want to delete Cube#${cube?.id} ?`" 
@@ -39,10 +42,15 @@ try {
 
 <style scoped>
 
+#form {
+    padding-top: 3rem;
+    display: grid;
+    justify-items: center;
+}
+
 span {
-    margin-top: 8.5rem;
+    margin-top: 5.5rem;
     display: flex;
-    justify-content: center;
     gap: 1rem;
 }
 
@@ -50,6 +58,10 @@ input[type="button"] {
     font-size: inherit;
     padding: 0.5rem;
     border-radius: 0.5rem;
+}
+
+#msg {
+    color: var(--accent-color);
 }
 
 #pop-over {

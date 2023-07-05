@@ -42,5 +42,11 @@ export default {
 div {
     height: 100vh;
 }
+@media (max-width: 449px) {
+    ul {
+        display: grid;
+        justify-items: center;
+    }
+}
 
 </style>
