@@ -3,6 +3,10 @@ import { useRoute } from 'vue-router';
 import { editCube, cubes } from '../services/consumer';
 import Navbar from '../components/Navbar.vue';
 import Cube from '../components/Cube.vue'
+import { ref } from 'vue';
+
+const cube = ref(cubes?.value?.find(cube => cube.id == useRoute().params.id))
+
 </script>
 <template>
     <Navbar :back="useRoute().fullPath.replace('/edit', '')"/>
@@ -15,7 +19,7 @@ import Cube from '../components/Cube.vue'
         <span>
             <input type="button" value="cancel" @click="$router.push('/')"/>
             <input type="button" value="save" @click="async () => {
-                await editCube($route.params.id, newMsg , newColor)
+                await editCube($route.params.id, newMsg === '' ? cube?.msg : newMsg , newColor)
                     .catch((e)=> console.log(e));
                 $router.push('/')
             }"/>
